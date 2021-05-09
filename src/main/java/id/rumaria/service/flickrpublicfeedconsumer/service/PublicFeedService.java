@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -28,8 +29,8 @@ public class PublicFeedService {
   private final FlickrPostRepo flickrPostRepo;
   private final Gson gson;
 
-  public void pullData() {
-    log.info("start pullData");
+  public void pullFeedsAndPersist() {
+    log.info("start pull data");
     String url = "https://api.flickr.com/services/feeds/photos_public.gne";
     final URI uri = UriComponentsBuilder
         .fromUriString(url)
@@ -55,6 +56,24 @@ public class PublicFeedService {
         .collect(Collectors.toSet());
     log.info("persist pulled data");
     flickrPostRepo.saveAll(flickrPostEntities);
-    log.info("success pull data");
+    log.info("success persisting data, total {}", flickrPostEntities.size());
+  }
+
+  public Set<FlickrPostModel> get(int month, int year, String tag, int page, int limit) {
+    final PageRequest pageRequest = PageRequest.of(page, limit);
+    final List<FlickrPostEntity> resultList = flickrPostRepo
+        .findAllByTagLike(tag, pageRequest);
+    return resultList.stream().map(e -> FlickrPostModel.builder()
+        .title(e.getTitle())
+        .link(e.getLink())
+        .mediaUrl(e.getMediaUrl())
+        .dateTaken(e.getDateTaken())
+        .description(e.getDescription())
+        .published(e.getPublished())
+        .author(e.getAuthor())
+        .authorId(e.getAuthorId())
+        .tags(e.getTags())
+        .build())
+        .collect(Collectors.toSet());
   }
 }
