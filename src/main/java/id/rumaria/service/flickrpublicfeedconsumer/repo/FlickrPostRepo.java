@@ -15,16 +15,16 @@ public interface FlickrPostRepo extends CrudRepository<FlickrPostEntity, Integer
   @Query(value = "select * from flickr_post_tbl "
       + "where date_part('year', date_taken) = ?1 "
       + "and date_part('month', date_taken) = ?2 "
-      + "and tags like '%?3%'", nativeQuery = true)
+      + "and tags like %?3%", nativeQuery = true)
   List<FlickrPostEntity> findAllByMonthAndYear(int year, int month, String tag, Pageable pageable);
 
   @Query(value = "select * from flickr_post_tbl "
       + "where date_part('month', date_taken) = ?1 "
-      + "and tags like '%?2%'", nativeQuery = true)
+      + "and tags like %?2%", nativeQuery = true)
   List<FlickrPostEntity> findAllByMonth(int month, String tag, Pageable pageable);
 
   @Query(value = "select * from flickr_post_tbl "
       + "where date_part('year', date_taken) = ?1 "
-      + "and tags like '%?2%'", nativeQuery = true)
+      + "and tags like %?2%", nativeQuery = true)
   List<FlickrPostEntity> findAllByYear(int year, String tag, Pageable pageable);
 }
