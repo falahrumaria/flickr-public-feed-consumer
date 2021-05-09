@@ -63,7 +63,7 @@ public class PublicFeedService {
   public Set<FlickrPostResponse> get(int month, int year, String tag, int page, int limit) {
     final PageRequest pageRequest = PageRequest.of(page, limit);
     final List<FlickrPostEntity> resultList = flickrPostRepo
-        .findAllByTagsLike(tag, pageRequest);
+        .findAllByTagsContains(tag, pageRequest);
     return resultList.stream().map(e -> FlickrPostResponse.builder()
         .title(e.getTitle())
         .link(e.getLink())
