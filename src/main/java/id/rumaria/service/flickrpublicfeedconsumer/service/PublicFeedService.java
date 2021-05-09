@@ -28,6 +28,7 @@ public class PublicFeedService {
     final String response = restTemplate.getForObject(uri, String.class);
     String validJsonResponse = response.substring(15, response.length() - 1);
     FlickrFeedResponse feedResponse = gson.fromJson(validJsonResponse, FlickrFeedResponse.class);
+    log.info("media url : {}", feedResponse.getItems().get(0).getMediaUrl());
     log.info("sukses");
   }
 }

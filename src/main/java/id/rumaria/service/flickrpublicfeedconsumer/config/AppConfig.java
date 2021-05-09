@@ -25,9 +25,4 @@ public class AppConfig {
     return new RestTemplate(simpleClientHttpRequestFactory);
   }
 
-//  @Bean
-//  public Gson gson() {
-//    return new GsonBuilder().create();
-//  }
-
 }
