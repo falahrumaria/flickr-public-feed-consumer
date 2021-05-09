@@ -9,5 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface FlickrPostRepo extends CrudRepository<FlickrPostEntity, Integer> {
 
-  public List<FlickrPostEntity> findAllByTagLike(String tag, Pageable pageable);
+  public List<FlickrPostEntity> findAllByTagsLike(String tag, Pageable pageable);
 }
