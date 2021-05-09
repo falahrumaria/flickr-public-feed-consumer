@@ -26,8 +26,8 @@ public class PublicFeedCtrl {
   }
 
   @GetMapping
-  public Set<FlickrPostResponse> get(@RequestParam(required = false) int month,
-      @RequestParam(required = false) int year, @RequestParam(required = false) String tag,
+  public Set<FlickrPostResponse> get(@RequestParam(required = false) Integer month,
+      @RequestParam(required = false) Integer year, @RequestParam(required = false) String tag,
       @RequestParam int page, @RequestParam int limit) {
     return publicFeedService.get(month, year, tag, page, limit);
   }

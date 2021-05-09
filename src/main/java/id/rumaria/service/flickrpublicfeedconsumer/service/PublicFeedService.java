@@ -8,6 +8,7 @@ import id.rumaria.service.flickrpublicfeedconsumer.model.FlickrPostModel;
 import id.rumaria.service.flickrpublicfeedconsumer.model.FlickrPostResponse;
 import id.rumaria.service.flickrpublicfeedconsumer.repo.FlickrPostRepo;
 import java.net.URI;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -60,10 +61,19 @@ public class PublicFeedService {
     log.info("success persisting data, total {}", flickrPostEntities.size());
   }
 
-  public Set<FlickrPostResponse> get(int month, int year, String tag, int page, int limit) {
+  public Set<FlickrPostResponse> get(Integer month, Integer year, String tag, int page, int limit) {
     final PageRequest pageRequest = PageRequest.of(page, limit);
-    final List<FlickrPostEntity> resultList = flickrPostRepo
-        .findAllByTagsContains(tag, pageRequest);
+    List<FlickrPostEntity> resultList = null;
+    if (month != null && year != null) {
+      Calendar cal = Calendar.getInstance();
+      cal.set(Calendar.YEAR, year);
+      cal.set(Calendar.MONTH, month - 1);
+      final Date date = cal.getTime();
+      resultList = flickrPostRepo.findAllByDate(date, tag, pageRequest);
+    } else {
+      resultList = flickrPostRepo
+          .findAllByTagsContains(tag, pageRequest);
+    }
     return resultList.stream().map(e -> FlickrPostResponse.builder()
         .title(e.getTitle())
         .link(e.getLink())
