@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import id.rumaria.service.flickrpublicfeedconsumer.data.FlickrPostEntity;
 import id.rumaria.service.flickrpublicfeedconsumer.model.FlickrFeedResponse;
 import id.rumaria.service.flickrpublicfeedconsumer.model.FlickrPostModel;
+import id.rumaria.service.flickrpublicfeedconsumer.model.FlickrPostResponse;
 import id.rumaria.service.flickrpublicfeedconsumer.repo.FlickrPostRepo;
 import java.net.URI;
 import java.util.Date;
@@ -59,11 +60,11 @@ public class PublicFeedService {
     log.info("success persisting data, total {}", flickrPostEntities.size());
   }
 
-  public Set<FlickrPostModel> get(int month, int year, String tag, int page, int limit) {
+  public Set<FlickrPostResponse> get(int month, int year, String tag, int page, int limit) {
     final PageRequest pageRequest = PageRequest.of(page, limit);
     final List<FlickrPostEntity> resultList = flickrPostRepo
         .findAllByTagsLike(tag, pageRequest);
-    return resultList.stream().map(e -> FlickrPostModel.builder()
+    return resultList.stream().map(e -> FlickrPostResponse.builder()
         .title(e.getTitle())
         .link(e.getLink())
         .mediaUrl(e.getMediaUrl())

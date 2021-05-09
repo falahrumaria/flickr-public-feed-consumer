@@ -1,6 +1,6 @@
 package id.rumaria.service.flickrpublicfeedconsumer.controller;
 
-import id.rumaria.service.flickrpublicfeedconsumer.model.FlickrPostModel;
+import id.rumaria.service.flickrpublicfeedconsumer.model.FlickrPostResponse;
 import id.rumaria.service.flickrpublicfeedconsumer.service.PublicFeedService;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class PublicFeedCtrl {
   }
 
   @GetMapping
-  public Set<FlickrPostModel> get(@RequestParam(required = false) int month,
+  public Set<FlickrPostResponse> get(@RequestParam(required = false) int month,
       @RequestParam(required = false) int year, @RequestParam(required = false) String tag,
       @RequestParam int page, @RequestParam int limit) {
     return publicFeedService.get(month, year, tag, page, limit);
