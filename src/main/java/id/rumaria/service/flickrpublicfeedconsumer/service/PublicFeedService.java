@@ -8,7 +8,6 @@ import id.rumaria.service.flickrpublicfeedconsumer.model.FlickrPostModel;
 import id.rumaria.service.flickrpublicfeedconsumer.model.FlickrPostResponse;
 import id.rumaria.service.flickrpublicfeedconsumer.repo.FlickrPostRepo;
 import java.net.URI;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -63,13 +62,13 @@ public class PublicFeedService {
 
   public Set<FlickrPostResponse> get(Integer month, Integer year, String tag, int page, int limit) {
     final PageRequest pageRequest = PageRequest.of(page, limit);
-    List<FlickrPostEntity> resultList = null;
+    List<FlickrPostEntity> resultList;
     if (month != null && year != null) {
-      Calendar cal = Calendar.getInstance();
-      cal.set(Calendar.YEAR, year);
-      cal.set(Calendar.MONTH, month - 1);
-      final Date date = cal.getTime();
-      resultList = flickrPostRepo.findAllByDate(date, tag, pageRequest);
+      resultList = flickrPostRepo.findAllByMonthAndYear(year, month, tag, pageRequest);
+    } else if (month != null) {
+      resultList = flickrPostRepo.findAllByMonth(month, tag, pageRequest);
+    } else if (year != null) {
+      resultList = flickrPostRepo.findAllByYear(year, tag, pageRequest);
     } else {
       resultList = flickrPostRepo
           .findAllByTagsContains(tag, pageRequest);
