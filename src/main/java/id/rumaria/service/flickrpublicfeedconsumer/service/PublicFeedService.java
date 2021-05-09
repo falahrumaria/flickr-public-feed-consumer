@@ -30,6 +30,7 @@ public class PublicFeedService {
     FlickrFeedResponse feedResponse = gson.fromJson(validJsonResponse, FlickrFeedResponse.class);
     log.info("cek value : {}", feedResponse.getTitle());
     log.info("cek value : {}", feedResponse.getLink());
+    log.info("cek value : {}", feedResponse.getItems().get(0).getMediaUrl());
     log.info("sukses");
   }
 }

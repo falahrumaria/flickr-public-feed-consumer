@@ -27,7 +27,7 @@ public class FlickrPostEntity {
   private String title;
   @Column
   private String link;
-  @Column
+  @Column(name = "media_url")
   private String mediaUrl;
   @Column(name = "date_taken")
   private Date dateTaken;

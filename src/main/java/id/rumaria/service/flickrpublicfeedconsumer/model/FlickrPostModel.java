@@ -16,7 +16,7 @@ public class FlickrPostModel {
 
   private String title;
   private String link;
-  private String mediaUrl;
+  private Map<String, String> media;
   @JsonProperty("date_taken")
   private Date dateTaken;
   private String description;
@@ -26,8 +26,7 @@ public class FlickrPostModel {
   private String authorId;
   private String tags;
 
-  @JsonProperty("media")
-  private void unpackNameFromNestedObject(Map<String, String> media) {
-    mediaUrl = media.get("m");
+  public String getMediaUrl() {
+    return media.get("m");
   }
 }
