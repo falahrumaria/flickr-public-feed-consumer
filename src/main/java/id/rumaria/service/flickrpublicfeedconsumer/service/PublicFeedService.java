@@ -29,6 +29,7 @@ public class PublicFeedService {
   private final Gson gson;
 
   public void pullData() {
+    log.info("start pullData");
     String url = "https://api.flickr.com/services/feeds/photos_public.gne";
     final URI uri = UriComponentsBuilder
         .fromUriString(url)
@@ -52,11 +53,8 @@ public class PublicFeedService {
             .pulledDate(today)
             .build())
         .collect(Collectors.toSet());
+    log.info("persist pulled data");
     flickrPostRepo.saveAll(flickrPostEntities);
-    FlickrPostEntity flickrPostEntity = FlickrPostEntity.builder().mediaUrl("x").build();
-    log.info("cek value : {}", feedResponse.getTitle());
-    log.info("cek value : {}", feedResponse.getLink());
-    log.info("cek value : {}", feedResponse.getItems().get(0).getMediaUrl());
-    log.info("sukses");
+    log.info("success pull data");
   }
 }
